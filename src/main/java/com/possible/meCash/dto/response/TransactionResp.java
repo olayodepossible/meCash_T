@@ -1,6 +1,7 @@
-package com.possible.meCash.dto.response;
+package com.possible.mecash.dto.response;
 
-import com.possible.task.dto.enums.TransactionType;
+
+import com.possible.mecash.dto.enums.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class TransactionResp {
         private Long id;
         private double amount;
-        private double discountApplied;
         private TransactionType transactionType;
 
 }

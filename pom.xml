@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.possible</groupId>
-	<artifactId>meCash</artifactId>
+	<artifactId>mecash</artifactId>
 	<version>1.0.0</version>
 	<name>meCash Wallet</name>
 	<description>Demo project for Spring Boot</description>

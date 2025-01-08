@@ -1,4 +1,4 @@
-package com.possible.meCash.dto.response;
+package com.possible.mecash.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

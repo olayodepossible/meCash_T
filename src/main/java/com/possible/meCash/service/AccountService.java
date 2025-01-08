@@ -1,10 +1,9 @@
-package com.possible.meCash.service;
+package com.possible.mecash.service;
 
 
-import com.possible.task.dto.req.AccountType;
-import com.possible.task.dto.req.TransactionDto;
-import com.possible.task.dto.response.ResponseDto;
-
+import com.possible.mecash.dto.enums.AccountType;
+import com.possible.mecash.dto.req.TransactionDto;
+import com.possible.mecash.dto.response.ResponseDto;
 
 public interface AccountService {
 

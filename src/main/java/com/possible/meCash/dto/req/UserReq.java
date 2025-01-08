@@ -1,11 +1,10 @@
-package com.possible.meCash.dto.req;
+package com.possible.mecash.dto.req;
 
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
 @Data
 public class UserReq {
@@ -19,7 +18,7 @@ public class UserReq {
         @Email(message = "Invalid email format")
         private String email;
 
-        @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be 10 digits")
+        @Pattern(regexp = "^+//d{10}$", message = "Input correct Phone number")
         private String phoneNumber;
 }
 

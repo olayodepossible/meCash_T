@@ -1,27 +1,28 @@
-package com.possible.meCash.service.impl;
+package com.possible.mecash.service.impl;
 
 
-import com.possible.task.dto.enums.AccountStatus;
-import com.possible.task.dto.req.*;
-import com.possible.task.dto.response.ResponseDto;
-import com.possible.task.model.Account;
-import com.possible.task.model.AppUser;
-import com.possible.task.model.Role;
-import com.possible.task.repository.AccountRepository;
-import com.possible.task.repository.RoleRepository;
-import com.possible.task.repository.UserRepository;
-import com.possible.task.security.JwtAuthenticationHelper;
-import com.possible.task.service.UserService;
-import com.possible.task.utils.AccountUtil;
-import com.possible.task.utils.EmailServiceUtil;
+import com.possible.mecash.dto.enums.AccountStatus;
+import com.possible.mecash.dto.enums.AccountType;
+import com.possible.mecash.dto.req.EmailDto;
+import com.possible.mecash.dto.req.LoginDto;
+import com.possible.mecash.dto.req.UserDto;
+import com.possible.mecash.dto.req.UserInfo;
+import com.possible.mecash.dto.response.ResponseDto;
+import com.possible.mecash.exceptiion.ResourceNotFoundException;
+import com.possible.mecash.model.Account;
+import com.possible.mecash.model.AppUser;
+import com.possible.mecash.model.Role;
+import com.possible.mecash.repository.AccountRepository;
+import com.possible.mecash.repository.RoleRepository;
+import com.possible.mecash.repository.UserRepository;
+import com.possible.mecash.utils.AccountUtil;
+import com.possible.mecash.utils.EmailServiceUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -177,15 +178,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     .build();
         }
     }
-
+/*
     @Override
     public AppUser loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow( () -> new UsernameNotFoundException("Username: " + username + " not found"));
-    }
+    }*/
 
     @Override
     public ResponseDto nameEnquiry(String accountNumber) {
-        AppUser appUser = userRepository.findByAccountNumber(accountNumber).orElseThrow( () -> new UsernameNotFoundException("Account Number: " + accountNumber + " not found"));
+        AppUser appUser = userRepository.findByAccountNumber(accountNumber).orElseThrow( () -> new ResourceNotFoundException("Account Number: " + accountNumber + " not found"));
 
         UserInfo userInfo = UserInfo.builder()
                 .email(appUser.getEmail())

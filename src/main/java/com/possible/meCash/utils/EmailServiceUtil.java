@@ -1,8 +1,7 @@
-package com.possible.meCash.utils;
+package com.possible.mecash.utils;
 
-
-import com.possible.task.dto.req.EmailDto;
-import com.possible.task.exceptiion.ResourceNotFoundException;
+import com.possible.mecash.dto.req.EmailDto;
+import com.possible.mecash.exceptiion.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailException;

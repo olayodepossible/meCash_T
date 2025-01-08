@@ -1,23 +1,23 @@
-package com.possible.meCash.service.impl;
+package com.possible.mecash.service.impl;
 
-import com.possible.task.dto.req.AccountType;
-import com.possible.task.dto.req.TransactionDto;
-import com.possible.task.dto.response.ResponseDto;
-import com.possible.task.exceptiion.AccountNotFoundException;
-import com.possible.task.model.Account;
-import com.possible.task.model.AppUser;
-import com.possible.task.model.Transaction;
-import com.possible.task.repository.AccountRepository;
-import com.possible.task.repository.TransactionRepository;
-import com.possible.task.repository.UserRepository;
-import com.possible.task.service.AccountService;
+import com.possible.mecash.dto.enums.AccountType;
+import com.possible.mecash.dto.req.TransactionDto;
+import com.possible.mecash.dto.response.ResponseDto;
+import com.possible.mecash.exceptiion.AccountNotFoundException;
+import com.possible.mecash.exceptiion.ResourceNotFoundException;
+import com.possible.mecash.model.Account;
+import com.possible.mecash.model.AppUser;
+import com.possible.mecash.model.Transaction;
+import com.possible.mecash.repository.AccountRepository;
+import com.possible.mecash.repository.TransactionRepository;
+import com.possible.mecash.repository.UserRepository;
+import com.possible.mecash.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -137,7 +137,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseDto activateAccount(Long userId, Long accountId) {
-        AppUser user = userRepository.findById(userId).orElseThrow( () -> new UsernameNotFoundException("User not found"));
+        AppUser user = userRepository.findById(userId).orElseThrow( () -> new ResourceNotFoundException("User not found"));
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
 
         if(user.getAccountList().contains(account)){
@@ -159,7 +159,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseDto deactivateUserAccount(Long userId, Long accountId) {
-        AppUser user = userRepository.findById(userId).orElseThrow( () -> new UsernameNotFoundException("User not found"));
+        AppUser user = userRepository.findById(userId).orElseThrow( () -> new ResourceNotFoundException("User not found"));
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
 
         if(user.getAccountList().contains(account)){

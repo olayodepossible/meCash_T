@@ -1,8 +1,6 @@
-package com.possible.meCash.dto.req;
+package com.possible.mecash.dto.req;
 
-
-
-import com.possible.task.model.Account;
+import com.possible.mecash.model.Account;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

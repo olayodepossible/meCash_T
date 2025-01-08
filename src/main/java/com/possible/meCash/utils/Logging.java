@@ -1,4 +1,4 @@
-package com.possible.meCash.utils;
+package com.possible.mecash.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +22,7 @@ public class Logging {
 
     @Async
     public void writeLog(String source, String request, String response, Exception err){
-        String fileName = "bankApp.log";
+        String fileName = "meCashApp.log";
         BufferedWriter bw = null;
         FileWriter fw = null;
 
@@ -54,12 +54,8 @@ public class Logging {
             }
             bw.write("\n");
         }
-        catch (IOException e){
+        catch (IOException | ParseException e){
             log.error("IO-err:: {}", e.getMessage());
-        }
-        catch (ParseException e){
-            log.error("IO-err:: {}", e.getMessage());
-            throw  new RuntimeException(e.getMessage());
         }
         finally {
             try{

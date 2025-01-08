@@ -1,4 +1,4 @@
-package com.possible.meCash;
+package com.possible.mecash;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

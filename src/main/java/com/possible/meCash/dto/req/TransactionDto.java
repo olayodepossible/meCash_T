@@ -1,4 +1,4 @@
-package com.possible.meCash.dto.req;
+package com.possible.mecash.dto.req;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class TransactionDto {
     private String initiatorAccount;
+    private String initiatorCurrency;
     private String beneficiaryAccount;
+    private String beneficiaryCurrency;
     private BigDecimal amount;
     private String transactionType;
     private String description;

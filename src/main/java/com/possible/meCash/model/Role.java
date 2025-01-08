@@ -1,12 +1,14 @@
-package com.possible.meCash.model;
+package com.possible.mecash.model;
 
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
@@ -16,6 +18,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Table(name = "roles")
 public class Role implements Serializable {
+    @Serial
     private static final long serialVersionUID = 2405172041950251807L;
 
     @Id

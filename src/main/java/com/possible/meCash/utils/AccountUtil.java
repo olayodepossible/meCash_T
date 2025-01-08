@@ -1,25 +1,27 @@
-package com.possible.meCash.utils;
+package com.possible.mecash.utils;
 
 import java.time.Year;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class AccountUtil {
 
     private AccountUtil(){}
+    private static  final Set<Long> generatedNum = new HashSet<>();
+    private static final int DIGITS = 10;
+    private static final int MIN = (int) Math.pow(10, DIGITS - 1);
+    private static final int MAX = (int) Math.pow(10, DIGITS) - 1;
     private static final Random random = new Random();
+
+
     public static String generateAccountNumber(){
+        long acctNum;
+        do {
+            acctNum = MIN + (random.nextLong() * (MAX - MIN + 1));
+        }while (!generatedNum.add(acctNum));
 
-        Year currentYear = Year.now();
-        float min = 100000f;
-        int max = 999999;
-
-        //generate a random number between min and max
-        int randNumber = (int) Math.floor(random.nextInt() * (max - min + 1) + min);
-        //convert the currentYear and randomNumber to strings, then concatenate them
-
-        String year = String.valueOf(currentYear);
-        String randomNumber = String.valueOf(randNumber);
-
-        return year + randomNumber;
+        return acctNum+"";
     }
+
 }

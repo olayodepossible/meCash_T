@@ -1,8 +1,9 @@
-package com.possible.meCash.controller;
+package com.possible.mecash.controller;
 
 
-import com.possible.task.dto.response.ResponseDto;
-import com.possible.task.service.AccountService;
+
+import com.possible.mecash.dto.response.ResponseDto;
+import com.possible.mecash.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

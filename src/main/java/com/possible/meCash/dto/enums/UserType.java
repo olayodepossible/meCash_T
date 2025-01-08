@@ -1,4 +1,4 @@
-package com.possible.meCash.dto.enums;
+package com.possible.mecash.dto.enums;
 
 public enum UserType {
 

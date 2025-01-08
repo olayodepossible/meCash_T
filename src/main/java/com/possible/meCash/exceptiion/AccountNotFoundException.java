@@ -1,4 +1,4 @@
-package com.possible.meCash.exceptiion;
+package com.possible.mecash.exceptiion;
 
 
 import org.springframework.http.HttpStatus;

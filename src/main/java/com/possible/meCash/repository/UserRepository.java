@@ -1,7 +1,8 @@
-package com.possible.meCash.repository;
+package com.possible.mecash.repository;
 
 
-import com.possible.task.model.AppUser;
+
+import com.possible.mecash.model.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

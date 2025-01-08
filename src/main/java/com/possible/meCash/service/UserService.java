@@ -1,16 +1,14 @@
-package com.possible.meCash.service;
+package com.possible.mecash.service;
 
 
-import com.possible.task.dto.req.LoginDto;
-import com.possible.task.dto.req.UserDto;
-import com.possible.task.dto.req.UserInfo;
-import com.possible.task.dto.response.ResponseDto;
-import com.possible.task.model.AppUser;
-import com.possible.task.model.Role;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.possible.mecash.dto.req.LoginDto;
+import com.possible.mecash.dto.req.UserDto;
+import com.possible.mecash.dto.req.UserInfo;
+import com.possible.mecash.dto.response.ResponseDto;
+import com.possible.mecash.model.AppUser;
+import com.possible.mecash.model.Role;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface UserService {
 

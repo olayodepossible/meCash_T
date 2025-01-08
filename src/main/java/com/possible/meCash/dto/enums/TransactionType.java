@@ -1,8 +1,8 @@
-package com.possible.meCash.dto.enums;
+package com.possible.mecash.dto.enums;
 
 public enum TransactionType {
     CREDIT,
     DEBIT,
-    TRANSFER, AIRTIME_RECHARGE;
+    TRANSFER
 }
 

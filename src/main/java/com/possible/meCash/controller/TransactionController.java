@@ -1,10 +1,10 @@
-package com.possible.meCash.controller;
+package com.possible.mecash.controller;
 
-import com.possible.task.dto.req.AirTimeReq;
-import com.possible.task.dto.req.TransactionReq;
-import com.possible.task.dto.response.TransactionResp;
-import com.possible.task.model.Transaction;
-import com.possible.task.service.impl.TransactionService;
+
+import com.possible.mecash.dto.req.TransactionReq;
+import com.possible.mecash.dto.response.TransactionResp;
+import com.possible.mecash.model.Transaction;
+import com.possible.mecash.service.impl.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +28,6 @@ public class TransactionController {
         return ResponseEntity.ok(convertToResponse(transaction));
     }
 
-    @PostMapping("/airtime")
-    public ResponseEntity<TransactionResp> buyAirtime(@RequestBody AirTimeReq request) {
-        Transaction transaction = transactionService.buyAirtime(request);
-
-        return ResponseEntity.ok(convertToResponse(transaction));
-    }
 
     @GetMapping("/history/{accountNumber}")
     public ResponseEntity<List<TransactionResp>> getTransactionHistory(
@@ -50,7 +44,7 @@ public class TransactionController {
         return new TransactionResp(
                 transaction.getId(),
                 Double.parseDouble(String.valueOf(transaction.getAmount())),
-                transaction.getDiscountApplied(),
+//                transaction.getDiscountApplied(),
                 transaction.getTransactionType()
         );
     }

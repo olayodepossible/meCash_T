@@ -1,4 +1,4 @@
-package com.possible.meCash.dto.req;
+package com.possible.mecash.dto.req;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

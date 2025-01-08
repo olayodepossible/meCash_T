@@ -1,9 +1,9 @@
-package com.possible.meCash.repository;
+package com.possible.mecash.repository;
 
 
-import com.possible.task.dto.enums.TransactionType;
-import com.possible.task.model.AppUser;
-import com.possible.task.model.Transaction;
+import com.possible.mecash.dto.enums.TransactionType;
+import com.possible.mecash.model.AppUser;
+import com.possible.mecash.model.Transaction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

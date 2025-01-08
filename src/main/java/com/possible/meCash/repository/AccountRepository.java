@@ -1,8 +1,7 @@
-package com.possible.meCash.repository;
+package com.possible.mecash.repository;
 
-
-import com.possible.task.dto.req.AccountType;
-import com.possible.task.model.Account;
+import com.possible.mecash.dto.enums.AccountType;
+import com.possible.mecash.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

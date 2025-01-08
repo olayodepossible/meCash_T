@@ -1,6 +1,6 @@
-package com.possible.meCash.model;
+package com.possible.mecash.model;
 
-import com.possible.meCash.dto.enums.UserType;
+import com.possible.mecash.dto.enums.UserType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
-package com.possible.meCash.model;
+package com.possible.mecash.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.possible.task.dto.enums.TransactionType;
+import com.possible.mecash.dto.enums.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
