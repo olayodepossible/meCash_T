@@ -31,4 +31,5 @@ public class SwaggerConfig {
                         .contact(new Contact().name("Tester QA").email( "www.test-qa.com").url("test-qa@gmail.com"))
                         .license(new License().name("License of API").url("API license URL")));
     }
+
 }
