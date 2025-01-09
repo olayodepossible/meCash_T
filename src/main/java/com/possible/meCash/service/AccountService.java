@@ -3,18 +3,22 @@ package com.possible.mecash.service;
 
 import com.possible.mecash.dto.enums.AccountType;
 import com.possible.mecash.dto.req.TransactionDto;
+import com.possible.mecash.dto.req.TransactionReq;
 import com.possible.mecash.dto.response.ResponseDto;
+import com.possible.mecash.dto.response.TransactionResp;
+import com.possible.mecash.model.Transaction;
+
+import java.util.List;
 
 public interface AccountService {
 
 
-    ResponseDto getUserTransactions(String accountNumber);
+//    ResponseDto getUserTransactions(String accountNumber);
 
     ResponseDto balanceEnquiry(String accountNumber);
+    ;
 
-    ResponseDto creditOrDebitAccountTransaction(TransactionDto transactionDto);
-
-    ResponseDto byAccType(AccountType accType);
+    ResponseDto getAccountByAccType(AccountType accType);
 
     ResponseDto getAllInActiveAccountList();
 
@@ -25,9 +29,12 @@ public interface AccountService {
     ResponseDto deactivateUserAccount(Long userId, Long accountId);
 
 
-    ResponseDto saveToAccount(String accountNumber, Long amount);
+    ResponseDto saveToAccount(TransactionReq req);
 
-    ResponseDto withdrawFromAccount(String accountNumber, Long amount);
+    ResponseDto withdrawFromAccount(TransactionReq req);
 
+    ResponseDto walletTransfer(TransactionReq req);
+
+    List<TransactionResp> getTransactionHistory(String accountNumber);
 }
 
