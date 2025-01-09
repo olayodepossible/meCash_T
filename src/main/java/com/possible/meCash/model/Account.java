@@ -2,6 +2,7 @@ package com.possible.mecash.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.possible.mecash.dto.enums.AccountCurrency;
 import com.possible.mecash.dto.enums.AccountType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,9 @@ public class Account implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
+
+    @Enumerated(EnumType.STRING)
+    private AccountCurrency accountCurrency;
 
     private String status;
 
