@@ -3,6 +3,7 @@ package com.possible.mecash.dto.req;
 
 import com.possible.mecash.dto.enums.TransactionType;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,10 +18,12 @@ public class TransactionReq {
 
     @NotNull(message = "Source Account number is required")
     private String sourceAccount;
-    @NotNull(message = "Source Account Currency is required")
+
     private String sourceCurrency;
+    @NotBlank(message = "Destination Account number is required")
     @NotNull(message = "Destination Account number is required")
     private String destinationAccount;
+    @NotBlank(message = "Destination Account Currency is required")
     @NotNull(message = "Destination Account Currency is required")
     private String destinationCurrency;
 

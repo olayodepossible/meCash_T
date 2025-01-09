@@ -17,14 +17,10 @@ import com.possible.mecash.repository.UserRepository;
 import com.possible.mecash.service.AccountService;
 import com.possible.mecash.utils.AccountUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -223,7 +219,9 @@ public class AccountServiceImpl implements AccountService {
         String beneficiaryAcctNum = req.getDestinationAccount();
         BigDecimal tranxAmount = req.getAmount();
         BigDecimal exchangeAmount = tranxAmount;
-
+        if(req.getDestinationCurrency().isEmpty()){
+            req.setDestinationCurrency(beneficiaryAcct.getAccountCurrency().name());
+        }
 
         if (!initiatorAcct.getAccountCurrency().name().equals(req.getDestinationCurrency())) {
             //TODO: currency conversion: an external API can be called here
@@ -340,8 +338,8 @@ public class AccountServiceImpl implements AccountService {
     public List<TransactionResp> getTransactionHistory(String accountNumber) {
         AppUser user = (AppUser) getLoginUser().getData();
         List<Transaction> transactions = transactionRepository.findByAppUser(user);
-        //TODO: Filter transactions by accountNumber
-        return  transactions.stream()
+        //TODO: Filter transactions by accountNumber,transactionType etc
+        return  transactions.stream().filter(t -> t.getBeneficiaryAcct().equals(accountNumber))
                 .map(this::convertToTransactionResp)
                 .collect(Collectors.toList());
 

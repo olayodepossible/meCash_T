@@ -5,15 +5,14 @@ package com.possible.mecash.controller;
 import com.possible.mecash.dto.req.TransactionReq;
 import com.possible.mecash.dto.response.ResponseDto;
 import com.possible.mecash.dto.response.TransactionResp;
-import com.possible.mecash.model.Transaction;
 import com.possible.mecash.service.AccountService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -29,17 +28,17 @@ public class AccountController {
     }
 
     @PostMapping("/deposit")
-    public ResponseEntity<ResponseDto<Object>> saveToWallet(@RequestBody TransactionReq req){
+    public ResponseEntity<ResponseDto<Object>> saveToWallet(@RequestBody @Valid TransactionReq req){
         return new ResponseEntity<>(accountService.saveToAccount(req), HttpStatus.OK);
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<ResponseDto<Object>> withdrawFromWallet(@RequestBody TransactionReq req){
+    public ResponseEntity<ResponseDto<Object>> withdrawFromWallet(@RequestBody @Valid TransactionReq req){
         return new ResponseEntity<>(accountService.withdrawFromAccount(req), HttpStatus.OK);
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<ResponseDto<Object>> transferFromWallet(@RequestBody TransactionReq req){
+    public ResponseEntity<ResponseDto<Object>> transferFromWallet(@RequestBody @Valid TransactionReq req){
         return new ResponseEntity<>(accountService.walletTransfer(req), HttpStatus.OK);
     }
 
@@ -53,7 +52,6 @@ public class AccountController {
         List<TransactionResp> transactionResp = accountService.getTransactionHistory(accountNumber);
         return ResponseEntity.ok(transactionResp);
     }
-
 
 
 }

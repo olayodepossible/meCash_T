@@ -6,7 +6,6 @@ import com.possible.mecash.dto.req.LoginDto;
 import com.possible.mecash.dto.req.UserDto;
 import com.possible.mecash.dto.req.UserInfo;
 import com.possible.mecash.dto.response.ResponseDto;
-import com.possible.mecash.model.AppUser;
 import com.possible.mecash.model.Role;
 import com.possible.mecash.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,8 +31,7 @@ public class UserController {
 
     @Operation(summary = "This method is used to create Admin User.")
     @PostMapping("/admin/register")
-    public ResponseEntity<ResponseDto<UserInfo>> registerAdmin(@RequestBody @Valid UserDto admin)
-    {
+    public ResponseEntity<ResponseDto<UserInfo>> registerAdmin(@RequestBody @Valid UserDto admin) {
         Role role = new Role();
         role.setRoleName("ROLE_ADMIN");
         ResponseDto<UserInfo> responseDto = userService.registerUser(admin, role);
@@ -46,8 +44,7 @@ public class UserController {
 
     @Operation(summary = "This method is used to create Users.")
     @PostMapping("/register")
-    public ResponseEntity<ResponseDto<UserInfo>> registerCustomer(@RequestBody @Valid UserDto user)
-    {
+    public ResponseEntity<ResponseDto<UserInfo>> registerCustomer(@RequestBody @Valid UserDto user) {
         Role role = new Role();
         role.setRoleName("ROLE_USER");
         ResponseDto<UserInfo> responseDto = userService.registerUser(user, role);
@@ -60,7 +57,7 @@ public class UserController {
 
     @Operation(summary = "User Login method.")
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto<UserInfo>> userLogin(@RequestBody LoginDto user)
+    public ResponseEntity<ResponseDto<UserInfo>> userLogin(@RequestBody @Valid LoginDto user)
     {
         ResponseDto<UserInfo> responseDto = userService.userLogin(user);
 
@@ -84,7 +81,6 @@ public class UserController {
         return new ResponseEntity<>(userService.deleteUserById(userId), HttpStatus.OK);
 
     }
-
 
     @PostMapping("/logout")
     public ResponseEntity<ResponseDto> logout(HttpServletRequest request, HttpServletResponse response) {
