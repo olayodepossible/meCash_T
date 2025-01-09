@@ -144,7 +144,7 @@ public class AccountServiceImpl implements AccountService {
                 .debit(BigDecimal.ZERO)
                 .amount(req.getAmount())
                 .balance(creditAcctBalance)
-                .beneficiaryAcct(req.getDestinationAccount())
+                .beneficiaryAcct(req.getDestinationAccount().isEmpty() ? accountNumber : req.getDestinationAccount())
                 .senderAcct(req.getSourceAccount())
                 .transactionType(TransactionType.CREDIT)
                 .transactionRef(AccountUtil.generateTransactionRef())
@@ -194,7 +194,9 @@ public class AccountServiceImpl implements AccountService {
 
             TransactionDto dto = TransactionDto.builder()
                     .initiatorAccount(savedTransaction.getSenderAcct())
+                    .initiatorCurrency(initiatorAcct.getAccountCurrency().name())
                     .beneficiaryAccount(savedTransaction.getBeneficiaryAcct())
+                    .beneficiaryCurrency(beneficiaryAcct.getAccountCurrency().name())
                     .amount(savedTransaction.getAmount())
                     .description(savedTransaction.getNarration())
                     .transactionType(savedTransaction.getTransactionType().name())
