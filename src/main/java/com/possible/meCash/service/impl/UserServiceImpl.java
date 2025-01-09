@@ -25,6 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -56,7 +57,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public ResponseDto registerUser(UserDto userDto, Role role) {
         boolean userExist = userRepository.existsByEmail(userDto.getEmail());
-        log.info("ACCT NUM: {}", AccountUtil.generateAccountNumber());
         if (userExist){
             return ResponseDto.builder()
                     .statusCode(400)
@@ -164,6 +164,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public ResponseDto userLogout(HttpServletRequest request, HttpServletResponse response) {
         String token = extractTokenFromHeader(request);
+
 
         // If token is not null, invalidate it
         if (token != null) {
