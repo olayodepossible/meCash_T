@@ -17,12 +17,14 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    Page<Transaction> findByAccount_AccountNumberAndPostedDateBetween(
+    /*Page<Transaction> findByAccount_AccountNumberAndPostedDateBetween(
             String accountNumber, LocalDateTime start, LocalDateTime end, Pageable pageable
     );
 
     @Query("SELECT t FROM Transaction t WHERE t.account.id = :accountId")
     List<Transaction> findAllTransactionByAccountId(Long accountId);
+
+     */
 
     List<Transaction> findByAppUser(AppUser user);
 
@@ -42,7 +44,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<Transaction> findByAppUserAndTransactionType(AppUser user, TransactionType type);
 
     // Count transactions for a user within a specific month
-
     @Query("SELECT COUNT(t) FROM Transaction t WHERE " +
             "t.appUser = :user " +
             "AND MONTH(t.postedDate) = :month " +

@@ -30,6 +30,8 @@ public class TransactionReq {
     @NotNull(message = "Transaction type is required")
     private TransactionType transactionType;
 
+    private String narration;
+
 
 
 

@@ -41,13 +41,8 @@ public class Transaction {
     @UpdateTimestamp
     private LocalDateTime valueDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
-    @JsonIgnore
-    private Account account;
-
     @ManyToOne
     private AppUser appUser;
-    private double discountApplied;
+    private String transactionRef;
 }
 

@@ -1,8 +1,10 @@
 package com.possible.mecash.exceptiion;
 
 
+import com.possible.mecash.dto.response.ResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,46 +15,74 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Handle ResourceNotFoundException
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleResourceNotFoundException(ResourceNotFoundException ex) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    public ResponseEntity<ResponseDto<Object>>  handleResourceNotFoundException(ResourceNotFoundException ex) {
+        ResponseDto<Object> resp = ResponseDto.builder()
+                .statusCode(404)
+                .responseMessage(ex.getMessage())
+                .data(null)
+                .build();
+        return new ResponseEntity<>(resp, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ResponseDto<Object>> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        ResponseDto<Object> resp = ResponseDto.builder()
+                .statusCode(404)
+                .responseMessage(ex.getMessage())
+                .data(null)
+                .build();
+        return new ResponseEntity<>(resp, HttpStatus.NOT_FOUND);
     }
 
     // Handle InvalidRequestException
     @ExceptionHandler(InvalidRequestException.class)
-    public ResponseEntity<Map<String, String>> handleInvalidRequestException(InvalidRequestException ex) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ResponseDto<Object>>  handleInvalidRequestException(InvalidRequestException ex) {
+        ResponseDto<Object> resp = ResponseDto.builder()
+                .statusCode(400)
+                .responseMessage(ex.getMessage())
+                .data(null)
+                .build();
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
     }
 
     // Handle InsufficientBalanceException
     @ExceptionHandler(InsufficientBalanceException.class)
-    public ResponseEntity<Map<String, String>> handleInsufficientBalanceException(InsufficientBalanceException ex) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    public ResponseEntity<ResponseDto<Object>>  handleInsufficientBalanceException(InsufficientBalanceException ex) {
+        ResponseDto<Object> resp = ResponseDto.builder()
+                .statusCode(400)
+                .responseMessage(ex.getMessage())
+                .data(null)
+                .build();
+        return new ResponseEntity<>(resp, HttpStatus.FORBIDDEN);
     }
 
     // Handle MethodArgumentNotValidException for @Valid annotations
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ResponseDto<Object>>  handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage()));
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        ResponseDto<Object> resp = ResponseDto.builder()
+                .statusCode(400)
+                .responseMessage(ex.getMessage())
+                .data(errors)
+                .build();
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
     }
 
     // Handle all other exceptions
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleGeneralException(Exception ex) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", "An unexpected error occurred");
-        response.put("details", ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<ResponseDto<Object>> handleGeneralException(Exception ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", "An unexpected error occurred");
+        errors.put("details", ex.getMessage());
+        ResponseDto<Object> resp = ResponseDto.builder()
+                .statusCode(400)
+                .responseMessage(ex.getMessage())
+                .data(errors)
+                .build();
+        return new ResponseEntity<>(resp, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 
