@@ -222,9 +222,21 @@ public class AccountServiceImpl implements AccountService {
         String initiatorAcctNum = req.getSourceAccount();
         String beneficiaryAcctNum = req.getDestinationAccount();
         BigDecimal tranxAmount = req.getAmount();
+        BigDecimal exchangeAmount = tranxAmount;
+
+
+        if (!initiatorAcct.getAccountCurrency().name().equals(req.getDestinationCurrency())) {
+            //TODO: currency conversion: an external API can be called here
+            Map<String, Double> exchangeRate = new HashMap<>();
+            exchangeRate.put("NAIRA_DOLLAR", 0.5);
+            exchangeRate.put("NAIRA_POUNDS", 0.7);
+            exchangeRate.put("NAIRA_EURO", 0.45);
+            double conversionAmount =AccountUtil.convertCurrency(tranxAmount.doubleValue(), initiatorAcct.getAccountCurrency().name(), beneficiaryAcct.getAccountCurrency().name(), exchangeRate);
+            exchangeAmount = BigDecimal.valueOf(conversionAmount);
+        }
 
         BigDecimal availableBalance = initiatorAcct.getBalance().subtract(tranxAmount);
-        BigDecimal creditAcctBal = beneficiaryAcct.getBalance().add(tranxAmount);
+        BigDecimal creditAcctBal = beneficiaryAcct.getBalance().add(exchangeAmount);
         Transaction transaction = Transaction.builder()
                 .credit(BigDecimal.ZERO)
                 .debit(tranxAmount)
@@ -257,20 +269,9 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new AccountNotFoundException(String.format(ACCT_NOT_FOUND, beneficiaryWalletAcctNum)));
 
         String message = "Insufficient Balance";
-        if (!sourceWallet.getAccountCurrency().name().equals(req.getDestinationCurrency())) {
-            //TODO: currency conversion: an external API can be called here
-            Map<String, Double> exchangeRate = new HashMap<>();
-            exchangeRate.put("NAIRA_DOLLAR", 0.5);
-            exchangeRate.put("NAIRA_POUNDS", 0.6);
-            exchangeRate.put("NAIRA_CAD", 0.4);
-            exchangeRate.put("DOLLAR_POUNDS", 0.7);
-            exchangeRate.put("DOLLAR_CAD", 0.45);
-            double conversionAmount =AccountUtil.convertCurrency(tranxAmount.doubleValue(), sourceWallet.getAccountCurrency().name(), targetWallet.getAccountCurrency().name(), exchangeRate);
-            tranxAmount = BigDecimal.valueOf(conversionAmount);
-        }
 
-        //TODO NIP call and validation
-        if (sourceWallet.getBalance().compareTo(tranxAmount) < 0) {
+        //external API call and validation
+        if (sourceWallet.getBalance().compareTo(tranxAmount) > 0) {
             Transaction transaction = performTransaction(sourceWallet, targetWallet, req);
 
             accountRepository.save(sourceWallet);

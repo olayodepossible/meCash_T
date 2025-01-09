@@ -15,7 +15,7 @@ public interface UserService {
     ResponseDto<UserInfo> registerUser(UserDto userDto, Role role);
     ResponseDto<UserInfo> userLogin(LoginDto loginDto);
     ResponseDto<Object> userLogout(HttpServletRequest request, HttpServletResponse response);
-    ResponseDto nameEnquiry(String accountNumber);
-    ResponseDto<AppUser> getAllUsers();
+//    ResponseDto nameEnquiry(String accountNumber);
+    ResponseDto<UserDto> getAllUsers();
     ResponseDto<String> deleteUserById(Long userId);
 }

@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final JwtAuthenticationFilter filter;
     private static final String[] AUTH_WHITELIST = {
-            "/swagger-ui/**", "/v3/api-docs/**",
+            "/swagger-ui/**", "/v3/api-docs/**","/swagger-ui.html",
             "/api-docs/**", "/api/v1/users/register", "/api/v1/users/login",
             "/api/v1/users/admin/register", "/auth"
     };
@@ -30,6 +30,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
                 .csrf(AbstractHttpConfigurer::disable) // Updated syntax for disabling CSRF
                 .cors(AbstractHttpConfigurer::disable) // Updated syntax for disabling CORS

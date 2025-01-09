@@ -1,6 +1,7 @@
 package com.possible.mecash.service.impl;
 
 
+import com.possible.mecash.dto.enums.AccountCurrency;
 import com.possible.mecash.dto.enums.AccountStatus;
 import com.possible.mecash.dto.enums.AccountType;
 import com.possible.mecash.dto.req.EmailDto;
@@ -23,6 +24,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,8 +34,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
 
@@ -51,17 +55,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public ResponseDto registerUser(UserDto userDto, Role role) {
-        Optional<AppUser> optionalUser = userRepository.findByEmail(userDto.getEmail());
-
-        if (optionalUser.isPresent()){
-            AppUser appUserEntity = optionalUser.get();
-            if (!appUserEntity.getAccountList().isEmpty() || role.getRoleName().equalsIgnoreCase("ROLE_ADMIN")) {
-                return ResponseDto.builder()
-                        .statusCode(400)
-                        .responseMessage("Attempt to create duplicate user record")
-                        .build();
-            }
-
+        boolean userExist = userRepository.existsByEmail(userDto.getEmail());
+        log.info("ACCT NUM: {}", AccountUtil.generateAccountNumber());
+        if (userExist){
+            return ResponseDto.builder()
+                    .statusCode(400)
+                    .responseMessage("Attempt to create duplicate user record")
+                    .build();
         }
 
         String encodedPassword = passwordEncoder.encode(userDto.getPassword());
@@ -70,14 +70,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())
                 .password(encodedPassword)
-                .username(userDto.getUsername())
                 .phoneNumber(userDto.getPhoneNumber())
-                .isIdentityProof(userDto.isIdentityProof())
                 .age(userDto.getAge())
                 .address(userDto.getAddress())
                 .email(userDto.getEmail())
                 .role(role)
-                .isEnable(true)
+                .isEnable(true) // TODO: validation link can be send to user here
                 .build();
 
         AppUser savedAppUser = userRepository.save(saveAppUser);
@@ -88,6 +86,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Account userAcct = Account.builder()
                 .user(savedAppUser)
                 .accountNumber(AccountUtil.generateAccountNumber())
+                .accountCurrency(userDto.getCurrency().isEmpty() ? AccountCurrency.NAIRA : AccountCurrency.valueOf(userDto.getCurrency()))
                 .accountType(AccountType.SAVINGS)
                 .balance(BigDecimal.valueOf(0))
                 .status(AccountStatus.ACTIVE.name())
@@ -186,12 +185,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public AppUser loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username).orElseThrow( () -> new UsernameNotFoundException("Username: " + username + " not found"));
+        return userRepository.findByEmail(username).orElseThrow( () -> new UsernameNotFoundException("Username: " + username + " not found"));
     }
 
-    @Override
+/*    @Override
     public ResponseDto nameEnquiry(String accountNumber) {
-        AppUser appUser = userRepository.findByAccountNumber(accountNumber).orElseThrow( () -> new ResourceNotFoundException("Account Number: " + accountNumber + " not found"));
+        // AppUser user = (AppUser) getLoginUser().getData();
+        AppUser appUser = userRepository.findByEmail(accountNumber).orElseThrow( () -> new ResourceNotFoundException("Account Number: " + accountNumber + " not found"));
 
         UserInfo userInfo = UserInfo.builder()
                 .email(appUser.getEmail())
@@ -209,15 +209,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .data(userInfo)
                 .build();
     }
+    */
 
     @Override
     public ResponseDto getAllUsers() {
         List<AppUser> appUsers =  userRepository.findAll();
+        List<UserDto> users = appUsers.stream().map(u -> UserDto.builder()
+                .firstName(u.getFirstName())
+                .lastName(u.getLastName())
+                .email(u.getEmail())
+                .age(u.getAge())
+                .phoneNumber(u.getPhoneNumber())
+                .address(u.getAddress())
+                .build()).toList();
 
         return ResponseDto.builder()
                 .statusCode(200)
-                .responseMessage(SUCCESSFUL_LOGIN)
-                .data(appUsers)
+                .responseMessage("Users retrieved successfully")
+                .data(users)
                 .build();
 
     }

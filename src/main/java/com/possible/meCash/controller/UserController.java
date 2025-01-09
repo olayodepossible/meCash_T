@@ -18,11 +18,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@Tag(name = "User Services")
+@Tag(name = "User Controller")
 @RequestMapping("api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
@@ -72,7 +73,7 @@ public class UserController {
     @GetMapping("/getAllUser")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ResponseDto<AppUser>> getAllUser(){
+    public ResponseEntity<ResponseDto<UserDto>> getAllUser(){
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
@@ -87,6 +88,7 @@ public class UserController {
 
     @PostMapping("/logout")
     public ResponseEntity<ResponseDto> logout(HttpServletRequest request, HttpServletResponse response) {
+        SecurityContextHolder.clearContext();
         return new ResponseEntity<>(userService.userLogout(request, response), HttpStatus.OK);
     }
 }
