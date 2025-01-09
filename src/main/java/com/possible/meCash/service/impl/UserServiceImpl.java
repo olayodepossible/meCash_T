@@ -15,12 +15,17 @@ import com.possible.mecash.model.Role;
 import com.possible.mecash.repository.AccountRepository;
 import com.possible.mecash.repository.RoleRepository;
 import com.possible.mecash.repository.UserRepository;
+import com.possible.mecash.security.JwtAuthenticationHelper;
+import com.possible.mecash.service.UserService;
 import com.possible.mecash.utils.AccountUtil;
 import com.possible.mecash.utils.EmailServiceUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -71,7 +76,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .age(userDto.getAge())
                 .address(userDto.getAddress())
                 .email(userDto.getEmail())
-                .roles(role)
+                .role(role)
                 .isEnable(true)
                 .build();
 
@@ -178,11 +183,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     .build();
         }
     }
-/*
+
     @Override
     public AppUser loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow( () -> new UsernameNotFoundException("Username: " + username + " not found"));
-    }*/
+    }
 
     @Override
     public ResponseDto nameEnquiry(String accountNumber) {

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
-    Optional<Account> findByUser(Long customerId);
+//    Optional<Account> findByUser(Long customerId);
 
     Optional<Account> findByAccountNumber(String accountNumber);
     @Query("SELECT a FROM Account a WHERE a.status = 'ACTIVE'")

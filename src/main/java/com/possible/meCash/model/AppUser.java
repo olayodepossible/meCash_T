@@ -9,6 +9,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 /*
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;*/
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -26,8 +30,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-public class AppUser {
-//public class AppUser implements UserDetails {
+public class AppUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,7 +81,7 @@ public class AppUser {
     private BigDecimal accountBalance;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private Role roles;
+    private Role role;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -87,16 +90,21 @@ public class AppUser {
 
     @OneToMany( mappedBy="user", cascade = CascadeType.ALL)
     private List<Account> accountList = new ArrayList<>();
-/*
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(this.roles.getRoleName()));
+        authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
         return authorities;
     }
 
     public boolean setIsEnable(Boolean value){
         return value;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override
@@ -124,5 +132,4 @@ public class AppUser {
         return isEnable;
     }
 
-*/
 }
